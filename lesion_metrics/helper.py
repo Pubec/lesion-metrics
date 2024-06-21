@@ -59,7 +59,21 @@ class Metrics:
         isbi15 = lmm.isbi15_score_from_metrics(dc, _ppv, _lfdr, _ltpr)
         vol_t = lmv.SegmentationVolume(truth).volume()
         vol_p = lmv.SegmentationVolume(pred).volume()
-        return cls(_avd, dc, isbi15, jc, _lfdr, _ltpr, _ppv, _tpr, vol_t, vol_p, nt, np, iou_threshold)
+        return Metrics(
+            avd=_avd,
+            dice=dc,
+            isbi15_score=isbi15,
+            jaccard=jc,
+            lfdr=_lfdr,
+            ltpr=_ltpr,
+            ppv=_ppv,
+            tpr=_tpr,
+            truth_volume=vol_t,
+            pred_volume=vol_p,
+            truth_count=nt,
+            pred_count=np,
+            iou_threshold=iou_threshold
+        )
 
 
     def __str__(self):
