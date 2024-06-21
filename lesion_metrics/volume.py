@@ -37,7 +37,7 @@ class SegmentationVolume:
     @classmethod
     def from_filename(cls, path: lmt.PathLike) -> SegmentationVolume:
         try:
-            import medio.image as mioi
+            import pymedio.image as mioi
         except ImportError as imp_exn:
             msg = "Require pymedio with 'all' extras to use this method"
             raise RuntimeError(msg) from imp_exn

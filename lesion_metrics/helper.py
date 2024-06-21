@@ -7,7 +7,7 @@ from __future__ import annotations
 import builtins
 import dataclasses
 
-import medio.image as mioi
+import pymedio.image as mioi
 
 import lesion_metrics.metrics as lmm
 import lesion_metrics.typing as lmt
@@ -28,6 +28,7 @@ class Metrics:
     pred_volume: float
     truth_count: int
     pred_count: int
+    iou_threshold: float = None
 
     @classmethod
     def from_filenames(
@@ -52,10 +53,29 @@ class Metrics:
             pred, truth, iou_threshold=iou_threshold, return_truth_count=True
         )
         assert isinstance(__ltpr, tuple)
-        _ltpr, nt = __lfdr
+        _ltpr, nt = __ltpr
         _ppv = lmm.ppv(pred, truth)
         _tpr = lmm.tpr(pred, truth)
         isbi15 = lmm.isbi15_score_from_metrics(dc, _ppv, _lfdr, _ltpr)
         vol_t = lmv.SegmentationVolume(truth).volume()
         vol_p = lmv.SegmentationVolume(pred).volume()
-        return cls(_avd, dc, isbi15, jc, _lfdr, _ltpr, _ppv, _tpr, vol_t, vol_p, nt, np)
+        return cls(_avd, dc, isbi15, jc, _lfdr, _ltpr, _ppv, _tpr, vol_t, vol_p, nt, np, iou_threshold)
+
+
+    def __str__(self):
+        return (
+            f"Metrics:\n"
+            f"  AVD: {self.avd}\n"
+            f"  Dice: {self.dice}\n"
+            f"  ISBI15 Score: {self.isbi15_score}\n"
+            f"  Jaccard: {self.jaccard}\n"
+            f"  LFDR: {self.lfdr}\n"
+            f"  LTPR: {self.ltpr}\n"
+            f"  PPV: {self.ppv}\n"
+            f"  TPR: {self.tpr}\n"
+            f"  Truth Volume: {self.truth_volume}\n"
+            f"  Pred Volume: {self.pred_volume}\n"
+            f"  Truth Count: {self.truth_count}\n"
+            f"  Pred Count: {self.pred_count}\n"
+            f"  Threshold: {self.iou_threshold}\n"
+        )

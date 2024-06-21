@@ -10,7 +10,7 @@ import warnings
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore", category=FutureWarning)
     warnings.filterwarnings("ignore", category=UserWarning)
-    import medio.image as mioi
+    import pymedio.image as mioi
     import pandas as pd
 
     import lesion_metrics.cli.common as lmcc
