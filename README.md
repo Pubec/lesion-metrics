@@ -13,22 +13,13 @@ Various metrics for evaluating lesion segmentations [1]
 
 ## Install
 
-The easiest way to install the package is with::
+The easiest way to install the package is in `editable` mode:
 
 ```bash
-    pip install lesion-metrics pymedio
-```
-
-To install the dependencies of the CLI, install with::
-
-```bash
-    pip install "lesion-metrics[cli]"
-```
-
-You can also download the source and run::
-
-```bash
-    python setup.py install
+git clone https://github.com/pubec/lesion-metrics
+cd lesion-metrics
+pip install -e .
+pip install pymedio pydicom
 ```
 
 ## Basic Usage
