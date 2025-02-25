@@ -7,6 +7,7 @@ from __future__ import annotations
 import builtins
 import dataclasses
 
+import numpy
 import pymedio.image as mioi
 
 import lesion_metrics.metrics as lmm
@@ -44,16 +45,20 @@ class Metrics:
         _avd = lmm.avd(pred, truth)
         dc = lmm.dice(pred, truth)
         jc = lmm.jaccard(pred, truth)
+        # lfdr
         __lfdr = lmm.lfdr(
             pred, truth, iou_threshold=iou_threshold, return_pred_count=True
         )
-        assert isinstance(__lfdr, tuple)
-        _lfdr, np = __lfdr
+        _lfdr, np = numpy.nan, numpy.nan
+        if isinstance(__lfdr, tuple):
+            _lfdr, np = __lfdr
+        # ltpr
         __ltpr = lmm.ltpr(
             pred, truth, iou_threshold=iou_threshold, return_truth_count=True
         )
-        assert isinstance(__ltpr, tuple)
-        _ltpr, nt = __ltpr
+        _ltpr, nt = numpy.nan, numpy.nan
+        if isinstance(__ltpr, tuple):
+            _ltpr, nt = __ltpr
         _ppv = lmm.ppv(pred, truth)
         _tpr = lmm.tpr(pred, truth)
         isbi15 = lmm.isbi15_score_from_metrics(dc, _ppv, _lfdr, _ltpr)
